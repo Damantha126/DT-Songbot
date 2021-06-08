@@ -1,0 +1,44 @@
+{
+    "name": "DT-SongBot",
+    "description": "A bot that can download songs.",
+    "keywords": [
+        "DTSongBot",
+        "Song Downloader",
+        "Telegram Bot",
+        "DT Bots"
+    ],
+    "website": "https://damantha.tk/web",
+    "repository": "https://github.com/Damantha126/DT-Songbot",
+    "logo": "https://telegra.ph/file/0e9b3fdd3531e65ab53fb.jpg",
+
+    "success_url": "https://t.me/damantha.tk/web",
+    "env": {
+        "BOT_TOKEN": {
+            "description": "Your Telegram Bot Token from @BotFather",
+            "value": ""
+        },
+        "API_HASH": {
+            "description": "Your API Hash from my.telegram.org",
+            "value": ""
+        },
+        "API_ID": {
+            "description": "Your APP ID from my.telegram.org",
+            "value": ""
+        }
+    },
+    "addons": [],
+    "buildpacks": [
+        {
+            "url": "heroku/python"
+        },
+        {
+            "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+        }
+    ],
+    "formation": {
+        "worker": {
+            "quantity": 1,
+            "size": "free"
+        }
+    }
+}
