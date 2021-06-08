@@ -18,7 +18,7 @@ def get_arg(message):
     return " ".join(split[1:])
 
 
-@Jebot.on_message(filters.command("saavn"))
+@DTbot.on_message(filters.command("saavn"))
 async def song(client, message):
     message.chat.id
     message.from_user["id"]
