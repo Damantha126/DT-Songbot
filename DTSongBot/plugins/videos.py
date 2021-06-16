@@ -26,7 +26,7 @@ def ytmusic(client, message: Message):
 
     urlissed = get_text(message)
 
-    pablo = await client.send_message(
+    pablo = m.send_message(
         message.chat.id, f"`Getting {urlissed} From Youtube Servers. Please Wait.`"
     )
     if not urlissed:
