@@ -21,8 +21,6 @@ from pyrogram.types import Message
 from youtube_search import YoutubeSearch
 from youtubesearchpython import SearchVideos
 
-from config import DURATION_LIMIT
-
 @Client.on_message(filters.command("song") & ~filters.channel)
 def song(client, message):
 
