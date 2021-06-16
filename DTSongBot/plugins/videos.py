@@ -87,7 +87,7 @@ def song(client, message):
             file_stark,
         ),
     )
-    await pablo.delete()
+    m.delete()
     is_downloading = False
     for files in (sedlyf, file_stark):
         if files and os.path.exists(files):
