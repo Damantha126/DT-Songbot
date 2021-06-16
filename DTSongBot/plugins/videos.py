@@ -15,58 +15,85 @@ def time_to_seconds(time):
     stringt = str(time)
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(':'))))
 
-@app.on_message(filters.command('video'))
-def song(client, message):
-
-    user_id = message.from_user.id 
-    user_name = message.from_user.first_name 
-    rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
-
-    query = ''
-    for i in message.command[1:]:
-        query += ' ' + str(i)
-    print(query)
-    m = message.reply('𝙋𝙧𝙤𝙘𝙚𝙨𝙨𝙞𝙣𝙜 ••• 🚀')
-    ydl_opts = {"format": "bestaudio[ext=mp4]"}
+@Jebot.on_message(filters.command("video") & ~filters.edited & filters.group)
+async def song(client, message):
+    cap = "@JEBotZ"
+    url = message.text.split(None, 1)[1]
+    rkp = await message.reply("Processing...")
+    if not url:
+        await rkp.edit("**What's the song you want?**\nUsage`/song <song name>`")
+    search = SearchVideos(url, offset=1, mode="json", max_results=1)
+    test = search.result()
+    p = json.loads(test)
+    q = p.get("search_result")
     try:
-        results = YoutubeSearch(query, max_results=1).to_dict()
-        link = f"https://youtube.com{results[0]['url_suffix']}"
-        #print(results)
-        title = results[0]["title"][:40]       
-        thumbnail = results[0]["thumbnails"][0]
-        thumb_name = f'thumb{title}.jpg'
-        thumb = requests.get(thumbnail, allow_redirects=True)
-        open(thumb_name, 'wb').write(thumb.content)
-
-        duration = results[0]["duration"]
-        url_suffix = results[0]["url_suffix"]
-        views = results[0]["views"]
-        yt = YouTube(link)
-    except Exception as e:
-        m.edit(
-            "❌ Found Nothing.\n\nTry another keywork or maybe spell it properly."
-        )
-        print(str(e))
+        url = q[0]["link"]
+    except BaseException:
+        return await rkp.edit("Failed to find that song.")
+    type = "video"
+    if type == "video":
+        opts = {
+            "format": "bestaudio",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "writethumbnail": True,
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp4",
+                    "preferredquality": "320",
+                }
+            ],
+            "outtmpl": "%(id)s.mp4",
+            "quiet": True,
+            "logtostderr": False,
+        }
+        song = True
+    try:
+        await rkp.edit("Downloading...")
+        with YoutubeDL(opts) as rip:
+            rip_data = rip.extract_info(url)
+    except DownloadError as DE:
+        await rkp.edit(f"`{str(DE)}`")
         return
-    m.edit("𝘿𝙤𝙬𝙣𝙡𝙤𝒹𝙞𝙣𝙜 𝙨𝙤𝙣𝙜•••😉")
-    try:
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            info_dict = ydl.extract_info(link, download=False)
-            audio_file = ydl.prepare_filename(info_dict)
-            ydl.process_info(info_dict)
-        rep = '🎵 𝙐𝙥𝙡𝙤𝙖𝙙𝙚𝙙 𝙗𝙮 @TheAnkiVectorbot•••\n 𝙟𝙤𝙞𝙣 @ankivectorUpdates •••'
-        secmul, dur, dur_arr = 1, 0, duration.split(':')
-        for i in range(len(dur_arr)-1, -1, -1):
-            dur += (int(dur_arr[i]) * secmul)
-            secmul *= 60
-        s = message.reply_audio(audio_file, caption=rep, thumb=thumb_name, parse_mode='md', title=title, duration=dur, performer=str(yt.author))
-        m.delete()
+    except ContentTooShortError:
+        await rkp.edit("`The download content was too short.`")
+        return
+    except GeoRestrictedError:
+        await rkp.edit(
+            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
+        )
+        return
+    except MaxDownloadsReached:
+        await rkp.edit("`Max-downloads limit has been reached.`")
+        return
+    except PostProcessingError:
+        await rkp.edit("`There was an error during post processing.`")
+        return
+    except UnavailableVideoError:
+        await rkp.edit("`Media is not available in the requested format.`")
+        return
+    except XAttrMetadataError as XAME:
+        await rkp.edit(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
+        return
+    except ExtractorError:
+        await rkp.edit("`There was an error during info extraction.`")
+        return
     except Exception as e:
-        m.edit('❌ Error\n Report @AnkiSupport_Official')
-        print(e)
-
-    try:
-        os.remove(audio_file)
-        os.remove(thumb_name)
-    except Exception as e:
-        print(e)
+        await rkp.edit(f"{str(type(e)): {str(e)}}")
+        return
+    time.time()
+    if song:
+        await rkp.edit("Uploading...") #ImJanindu
+        lol = "./thumb.jpg"
+        lel = await message.reply_audio(
+                 f"{rip_data['id']}.mp4",
+                 duration=int(rip_data["duration"]),
+                 title=str(rip_data["title"]),
+                 performer=str(rip_data["uploader"]),
+                 thumb=lol,
+                 caption=cap)  #JEBotZ
+        await rkp.delete()
