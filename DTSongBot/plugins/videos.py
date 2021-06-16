@@ -16,7 +16,7 @@ def time_to_seconds(time):
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(':'))))
 
 @app.on_message(filters.command('video'))
-def ytmusic(client, message: Message):
+def ytmusic(client, message):
     global is_downloading
     if is_downloading:
         m.reply_text(
