@@ -58,7 +58,7 @@ def ytmusic(client, message):
         for i in range(len(dur_arr)-1, -1, -1):
             dur += (int(dur_arr[i]) * secmul)
             secmul *= 60
-        s = message.reply_video(video_file, caption=rep, thumb=thumb_name, parse_mode='md', title=title, duration=dur, performer=str(yt.author))
+        s = message.reply_video(video, caption=rep, thumb=thumb_name, parse_mode='md', title=title, duration=dur, performer=str(yt.author))
         m.delete()
     except Exception as e:
         m.edit('❌ Error\n Report @AnkiSupport_Official')
