@@ -71,7 +71,7 @@ def song(client, message):
     c_time = time.time()
     file_stark = f"{ytdl_data['id']}.mp4"
     capy = f"**Video Name ➠** `{thum}` \n**Requested For :** `{urlissed}` \n**Channel :** `{thums}` \n**Link :** `{mo}`"
-    s = message client.send_video(
+    m.client.send_video(
         message.chat.id,
         video=open(file_stark, "rb"),
         duration=int(ytdl_data["duration"]),
