@@ -26,7 +26,7 @@ def ytmusic(client, message):
         query += ' ' + str(i)
     print(query)
     m = message.reply('𝙋𝙧𝙤𝙘𝙚𝙨𝙨𝙞𝙣𝙜 ••• 🚀')
-    ydl_opts = {"format": "bestvideo[ext=m4a]"}
+    ydl_opts = {"format": "bestvideo[ext=mp4]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com/{results[0]['url_suffix']}"
