@@ -29,7 +29,7 @@ def ytmusic(client, message):
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
-        link = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
+        kekme = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
         #print(results)
         thum = mio[0]["title"]
         thumbnail = results[0]["thumbnails"][0]
