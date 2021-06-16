@@ -22,7 +22,7 @@ async def song(client, message):
     rkp = await message.reply("Processing...")
     if not url:
         await rkp.edit("**What's the song you want?**\nUsage`/song <song name>`")
-    search = Searchvideos(url, offset=1, mode="json", max_results=1)
+    search = Searchaudios(url, offset=1, mode="json", max_results=1)
     test = search.result()
     p = json.loads(test)
     q = p.get("search_result")
