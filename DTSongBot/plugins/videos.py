@@ -51,7 +51,7 @@ def ytmusic(client, message):
     try:
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(link, download=False)
-            audio_file = ydl.prepare_filename(info_dict)
+            video = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
         rep = '🎵 𝙐𝙥𝙡𝙤𝙖𝙙𝙚𝙙 𝙗𝙮 @TheAnkiVectorbot•••\n 𝙟𝙤𝙞𝙣 @ankivectorUpdates •••'
         secmul, dur, dur_arr = 1, 0, duration.split(':')
@@ -65,7 +65,7 @@ def ytmusic(client, message):
         print(e)
 
     try:
-        os.remove(video_file)
+        os.remove(video)
         os.remove(thumb_name)
     except Exception as e:
         print(e)
