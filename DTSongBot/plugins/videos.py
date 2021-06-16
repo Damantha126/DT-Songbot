@@ -56,7 +56,7 @@ def song(client, message):
             duration = round(infoo["duration"] / 60)
 
             if duration > DURATION_LIMIT:
-                await pablo.edit(
+                m.edit(
                     f"❌ Videos longer than {DURATION_LIMIT} minute(s) aren't allowed, the provided video is {duration} minute(s)"
                 )
                 is_downloading = False
