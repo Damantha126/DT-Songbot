@@ -1,4 +1,20 @@
-@Client.on_message(filters.command(["vsong", "video"]))
+# Plugin by @Mr_Dark_Prince
+# Anki Vector Updates <https://t.me/ankivectorUpdates>
+
+import os
+import requests
+import aiohttp
+import youtube_dl
+from pytube import YouTube
+from DTSongBot import DTbot as app
+from pyrogram import filters, Client
+from youtube_search import YoutubeSearch
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InputTextMessageContent
+
+def time_to_seconds(time):
+    stringt = str(time)
+    return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(':'))))
+@app.on_message(filters.command(["vsong", "video"]))
 async def ytmusic(client, message: Message):
     global is_downloading
     if is_downloading:
