@@ -15,7 +15,7 @@ def time_to_seconds(time):
     stringt = str(time)
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(':'))))
 
-@Jebot.on_message(filters.command("video") & ~filters.edited & filters.group)
+@app.on_message(filters.command("video") & ~filters.edited & filters.group)
 async def song(client, message):
     cap = "@JEBotZ"
     url = message.text.split(None, 1)[1]
